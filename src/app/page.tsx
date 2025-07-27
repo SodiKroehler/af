@@ -2,24 +2,21 @@ import Image from "next/image"
 
 export default function Home() {
   return (
-<div className="flex flex-1 h-full bg-cream text-ink font-sans">
-  {/* Left content placeholder (can be text or left empty) */}
-  <div className="flex-1 p-8">
-    {/* You can put intro text or leave it blank */}
-    <h1 className="text-4xl font-bold">Welcome</h1>
-    <p className="mt-4 text-lg">This is Azaleas Frequency.</p>
-  </div>
+<div className="flex flex-1 h-full bg-cream text-ink font-sans justify-center items-center">
 
   {/* Right image block */}
-  <div className="w-1/2 min-w-[320px] relative h-full overflow-hidden">
-    <Image
-      src="/homepage.png"
-      alt="Homepage Visual"
+  <div className="w-1/2 min-w-[320px] relative h-full overflow-hidden justify-center items-center">
+    {/* <Image
+      src="/logo.png"
+      alt="Azaleas Frequency Logo"
       fill
       sizes="(max-width: 768px) 100vw, 50vw"
-      className="object-contain object-right animate-pan"
+      className="object-contain object-center animate-pan"
       priority
-    />
+    /> */}
+<h1 className="absolute inset-0 flex justify-center items-center text-[15vw] text-forest drop-shadow-[3_3px_3px_gold] font-bold tracking-wider uppercase">
+  AF
+</h1>
   </div>
 </div>
 
