@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { CalendarIcon, ClockIcon, MailIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import { CalendarIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Button } from "@components/ui/button";
