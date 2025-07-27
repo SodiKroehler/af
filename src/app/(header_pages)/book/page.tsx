@@ -1,6 +1,5 @@
 'use client'
 import { useState } from "react";
-import { CalendarIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Button } from "@components/ui/button";
@@ -92,12 +91,12 @@ export default function BookingPage() {
             </div>
 
             <div>
-              <Input type="date" {...register("date")} icon={<CalendarIcon className="w-5 h-5" />} />
+              <Input type="date" {...register("date")}/>
               {errors.date && <p className="text-red-500 text-sm">{errors.date.message}</p>}
             </div>
 
             <div>
-              <Input type="time" {...register("time")} icon={<ClockIcon className="w-5 h-5" />} />
+              <Input type="time" {...register("time")}/>
               {errors.time && <p className="text-red-500 text-sm">{errors.time.message}</p>}
             </div>
 
