@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { bookingFail, bookingVerbose } from '@lib/booking/diagnostics'
+import { bookingFail, bookingVerbose, bookingVerboseWarn } from '@lib/booking/diagnostics'
+
+/** Never cache — env and counts must be fresh per request. */
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const url = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL?.trim())
@@ -46,6 +49,14 @@ export async function GET() {
     )
   }
 
-  bookingVerbose('todays_bookings: ok', { count })
-  return NextResponse.json({ count }, { status: 200 })
+  // PostgREST sometimes returns `count: null` with head:true even when the request succeeded; treat as 0 for rate limiting.
+  const rowCount = typeof count === 'number' && !Number.isNaN(count) ? count : 0
+  if (count == null || typeof count !== 'number') {
+    bookingVerboseWarn('todays_bookings: Supabase returned non-numeric count; coerced to 0', {
+      rawCount: count,
+    })
+  }
+
+  bookingVerbose('todays_bookings: ok', { count: rowCount })
+  return NextResponse.json({ count: rowCount }, { status: 200 })
 }
