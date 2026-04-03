@@ -2,12 +2,17 @@ import { NextResponse, NextRequest } from 'next/server'
 import { EmailTemplate } from '@components/notify_emailTemplate';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: NextRequest) {
-  const { name, email, phone, date, time, occasion } = await req.json();
+  const key = process.env.RESEND_API_KEY;
+  if (!key) {
+    console.error('booking_notify: RESEND_API_KEY is not set');
+    return NextResponse.json({ error: 'Email service not configured' }, { status: 503 });
+  }
+  const resend = new Resend(key);
 
-  console.log('Received booking data:', { name, email, phone, date, time, occasion });
+  const { name, email, phone, date, time, occasion, notes } = await req.json();
+
+  console.log('Received booking data:', { name, email, phone, date, time, occasion, notes });
 
   // Parse time to proper ICS format (assume time is ISO string)
   const startDate = new Date(date + 'T' + time);
@@ -28,7 +33,7 @@ export async function POST(req: NextRequest) {
     SUMMARY:Booking - ${occasion}
     DTSTART:${formatICSDate(startDate)}
     DTEND:${formatICSDate(endDate)}
-    DESCRIPTION:Occasion: ${occasion}\\nBooked by: ${name}\\nEmail: ${email}\\nPhone: ${phone}
+    DESCRIPTION:Occasion: ${occasion}\\nBooked by: ${name}\\nEmail: ${email}\\nPhone: ${phone}${notes ? `\\nNotes: ${String(notes).replace(/\n/g, '\\n')}` : ''}
     LOCATION:Chesapeake, VA
     STATUS:CONFIRMED
     END:VEVENT
@@ -48,6 +53,7 @@ export async function POST(req: NextRequest) {
         date,
         time,
         occasion,
+        notes: notes ? String(notes) : undefined,
       }),
       attachments: [
         {

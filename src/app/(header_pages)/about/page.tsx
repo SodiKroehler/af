@@ -14,31 +14,58 @@ export default function AboutPage() {
             height={300}
             className="mb-4"
           />
-          <h1 className="text-4xl font-bold text-forest">Sunshine Huggins</h1>
-          <p className="text-lg text-left text-gray-700 max-w-xl">
-            Sunshine Huggins is a talented young harpist from Chesapeake, Virginia, whose journey has captivated audiences across the region. At just 16, she performed for state senators and local dignitaries, and now she's setting her sights on a future filled with music, community service, and dreams of becoming a professional musician.
-          </p>
+          <h1 className="text-4xl font-bold text-forest">Azalea&apos;s Frequency</h1>
         </div>
 
-        <section className="text-left text-ink space-y-4">
-          <h2 className="text-2xl text-forest font-semibold">A Rising Star</h2>
+        <section className="mx-auto max-w-prose text-left text-ink space-y-6 text-lg leading-relaxed text-gray-800">
           <p>
-            Sunshine’s love for the harp began in childhood, drawn to its elegant sound and emotive power. Despite the rarity of harpists in her area, she committed herself to mastering the instrument—attending lessons, performing at civic events, and inspiring others with her graceful playing.
+            Azalea&apos;s Frequency was created by Sunshine Huggins—an entrepreneur, harpist, and wellness visionary—rooted in a simple but powerful belief: music is a universal language, and healing is one of its most natural dialects. Born in the Southtowns of Buffalo, New York and raised in Hampton Roads from the age of nine, Sunshine has been playing the harp since she was six years old. Her lifelong connection to music shapes every part of this platform.
           </p>
           <p>
-            Her dedication caught the attention of local media, and with the support of her community and a grant from 13NewsNow’s "HeartThreads," she was recently gifted her very own harp—one she describes as the instrument of her dreams.
+            Azalea&apos;s Frequency exists to bring awareness to music therapy and to illuminate the everyday ways people use music to soothe, restore, and reconnect with themselves. It is more than a performance service; it is an atmosphere, an experience, and a pathway to wellness.
           </p>
           <p>
-            Now, Sunshine is channeling that gratitude into performance and outreach, showing younger students that classical music can still be powerful, expressive, and deeply human.
+            Blending the healing power of harp music with intentional, curated aesthetics, Azalea&apos;s Frequency specializes in crafting immersive environments that transform any event. Whether you envision a fairytale ceremony, an elegant cocktail hour, or a timeless wedding, Sunshine brings beauty, class, and a tailored aesthetic that elevates your vision. Every booking is thoughtful, personalized, and designed to harmonize with the energy of your moment.
+          </p>
+          <p>
+            From individuals seeking healing through holistic practices to event organizers and performing artists desiring unique atmospheres, Azalea&apos;s Frequency offers a space where artistry and wellness meet—inviting every guest into a world shaped by their own creative sound, beauty, and intention.
           </p>
         </section>
 
-        <section className="text-left text-ink space-y-4">
-          <h2 className="text-2xl text-forest font-semibold">Looking Ahead</h2>
-          <p>
-            With her new harp and her signature smile, Sunshine plans to pursue a degree in music and continue performing across the state. She also hopes to launch a youth music program in the future, giving other kids the kind of opportunity she’s so grateful to have received.
-          </p>
+        <section className="mx-auto max-w-prose space-y-10 text-left text-ink text-lg leading-relaxed text-gray-800">
+          <div className="space-y-6">
+            <h2 className="text-2xl font-semibold text-forest">Long-term vision</h2>
+            <p>
+              My long-term vision for Azaleas Frequency is to expand this brand into a full transformative retreat, wellness and health spa destination that will offer:
+            </p>
+            <ul className="list-disc space-y-2 pl-6 marker:text-forest">
+              <li>Personalized frequency-based treatments</li>
+              <li>Curated playlists designed for emotional and energetic alignment</li>
+              <li>Spa rooms with different amenities tuned to specific frequencies</li>
+              <li>Vocal release and sound expression rooms</li>
+              <li>Mud baths and grounding therapies</li>
+              <li>Access to instruments and creative exploration</li>
+              <li>Music studio spaces for emotional release and artistic healing</li>
+            </ul>
+          </div>
+
+          <div className="space-y-6 border-t border-gray-200 pt-10">
+            <h2 className="text-2xl font-semibold text-forest">Your booking</h2>
+            <p>
+              Your booking is a direct contribution to building these multi-industry healing spaces, where music becomes a tool for restoration, and where the wellness you experience is something you can carry with you long after the moment ends. By choosing Azalea&apos;s Frequency, you are not only supporting the creation of a music-therapy-centered spa and retreat, but you are also uplifting representation in a field where it is needed.
+            </p>
+            <p>
+              Every booking helps bring visibility to Black musicians, Black healers, and Black innovators within the music therapy world. It supports the presence of the harp—a historically exclusive instrument—being used as a therapeutic tool in the hands of a melanated woman who is reshaping what healing can look and sound like. Azalea&apos;s Frequency stands as a testament to cultural presence, artistic excellence, and the power of sound to transform lives.
+            </p>
+            <p>
+              But for now, Azaleas Frequency will provide solace in grief and joy in celebration.
+            </p>
+            <p>
+              My goal is to empower individuals to create their desired world through a beautiful blend of sound and sight, fostering a rich healing experience.
+            </p>
+          </div>
         </section>
+
         <section className="text-left text-ink space-y-6">
           <h2 className="text-2xl text-forest font-semibold">Connect</h2>
           <ul className="space-y-4">

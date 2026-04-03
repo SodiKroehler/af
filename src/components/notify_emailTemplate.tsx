@@ -7,9 +7,18 @@ interface EmailTemplateProps {
   date: string;
   time: string;
   occasion: string;
+  notes?: string;
 }
 
-export function EmailTemplate({ name, email, phone, date, time, occasion }: EmailTemplateProps) {
+export function EmailTemplate({
+  name,
+  email,
+  phone,
+  date,
+  time,
+  occasion,
+  notes,
+}: EmailTemplateProps) {
   return (
     <div
       style={{
@@ -53,6 +62,12 @@ export function EmailTemplate({ name, email, phone, date, time, occasion }: Emai
             <td style={{ fontWeight: 'bold' }}>Time:</td>
             <td>{time}</td>
           </tr>
+          {notes ? (
+            <tr>
+              <td style={{ fontWeight: 'bold', verticalAlign: 'top' }}>Notes:</td>
+              <td style={{ whiteSpace: 'pre-wrap' }}>{notes}</td>
+            </tr>
+          ) : null}
         </tbody>
       </table>
 

@@ -1,12 +1,15 @@
-import { NextResponse, NextRequest } from 'next/server'
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // must be the *secret* service role key
-);
+import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 export async function GET() {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!url || !serviceKey) {
+        console.error('todays_bookings: missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY')
+        return NextResponse.json({ error: 'Database not configured', count: null }, { status: 503 })
+    }
+    const supabase = createClient(url, serviceKey)
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

@@ -1,24 +1,20 @@
-import Image from "next/image"
+import { WendellVines } from "@components/WendellVines"
+
+import "@lib/wendell/wendell.css"
 
 export default function Home() {
   return (
-<div className="flex flex-1 h-full bg-cream text-ink font-sans justify-center items-center">
-
-  {/* Right image block */}
-  <div className="w-1/2 min-w-[320px] relative h-full overflow-hidden justify-center items-center">
-    {/* <Image
-      src="/logo.png"
-      alt="Azaleas Frequency Logo"
-      fill
-      sizes="(max-width: 768px) 100vw, 50vw"
-      className="object-contain object-center animate-pan"
-      priority
-    /> */}
-<h1 className="absolute inset-0 flex justify-center items-center text-[15vw] text-forest drop-shadow-[3_3px_3px_gold] font-bold tracking-wider uppercase">
-  AF
-</h1>
-  </div>
-</div>
-
+    <div className="relative h-full min-h-0 w-full overflow-hidden bg-cream">
+      <div className="wendell-vine-host absolute inset-0 min-h-0">
+        <WendellVines />
+      </div>
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+        <div className="rounded-2xl bg-white/50 px-10 py-6 shadow-sm backdrop-blur-[3px] md:px-14 md:py-10">
+          <h1 className="text-[clamp(3rem,15vw,10rem)] font-bold uppercase leading-none tracking-wider text-forest drop-shadow-[3px_3px_3px_rgba(199,160,70,0.5)]">
+            AF
+          </h1>
+        </div>
+      </div>
+    </div>
   )
 }
