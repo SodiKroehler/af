@@ -31,7 +31,9 @@ export default function RootLayout({
       >
       {/* Top nav */}
       <header className="fixed top-0 left-0 right-0 z-50 flex h-[100px] w-full items-center justify-between border-b border-forest/10 bg-cream/60 px-8 py-4 shadow-[0_1px_0_rgba(255,255,255,0.4)] backdrop-blur-md backdrop-saturate-150">
-        <Image src="/logo.png" alt="Logo" width={120} height={40} priority />
+        <a href="/" className="shrink-0 opacity-95 transition-opacity hover:opacity-100">
+          <Image src="/logo.png" alt="Azalea's Frequency" width={120} height={40} className="h-10 w-auto object-contain object-left" priority />
+        </a>
         <nav className="space-x-8 text-sm text-forest tracking-wider uppercase">
           <a href="/" className="hover:text-gold">Home</a>
           <a href="/about" className="hover:text-gold">About</a>

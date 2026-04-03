@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { WendellVines } from "@components/WendellVines"
 
 import "@lib/wendell/wendell.css"
@@ -15,14 +16,19 @@ export default function Home() {
       </div>
       <div className="pointer-events-none fixed inset-0 z-[5] flex items-center justify-center p-4">
         <div className="rounded-2xl bg-white/50 px-8 py-6 shadow-sm backdrop-blur-[3px] md:px-12 md:py-10">
-          <Image
-            src="/logo.png"
-            alt="Azalea's Frequency logo"
-            width={640}
-            height={640}
-            className="h-auto w-[min(78vw,400px)] max-w-full object-contain drop-shadow-[2px_2px_8px_rgba(30,61,52,0.12)]"
-            priority
-          />
+          <Link
+            href="/"
+            className="pointer-events-auto block outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-forest/50"
+          >
+            <Image
+              src="/logo.png"
+              alt="Azalea's Frequency logo"
+              width={640}
+              height={640}
+              className="h-auto w-[min(78vw,400px)] max-w-full object-contain drop-shadow-[2px_2px_8px_rgba(30,61,52,0.12)]"
+              priority
+            />
+          </Link>
         </div>
       </div>
     </>

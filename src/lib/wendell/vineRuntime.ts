@@ -885,10 +885,41 @@ function onCanvasMouseLeave() {
   if (!raf) renderFrame();
 }
 
+function onCanvasTouchStart(event) {
+  if (event.touches.length === 0) return;
+  const rect = cvs.getBoundingClientRect();
+  const t = event.touches[0];
+  pointer.x = t.clientX - rect.left;
+  pointer.y = t.clientY - rect.top;
+  pointer.inside = true;
+  tryBloomLeaves(pointer.x, pointer.y);
+  if (!raf) renderFrame();
+}
+
+function onCanvasTouchMove(event) {
+  if (event.touches.length === 0) return;
+  event.preventDefault();
+  const rect = cvs.getBoundingClientRect();
+  const t = event.touches[0];
+  pointer.x = t.clientX - rect.left;
+  pointer.y = t.clientY - rect.top;
+  tryBloomLeaves(pointer.x, pointer.y);
+  if (!raf) renderFrame();
+}
+
+function onCanvasTouchEnd() {
+  pointer.inside = false;
+  if (!raf) renderFrame();
+}
+
 window.addEventListener("resize", onWindowResize);
 cvs.addEventListener("click", onCanvasClick);
 cvs.addEventListener("mousemove", onCanvasMouseMove);
 cvs.addEventListener("mouseleave", onCanvasMouseLeave);
+cvs.addEventListener("touchstart", onCanvasTouchStart, { passive: true });
+cvs.addEventListener("touchmove", onCanvasTouchMove, { passive: false });
+cvs.addEventListener("touchend", onCanvasTouchEnd);
+cvs.addEventListener("touchcancel", onCanvasTouchEnd);
 
 const resizeHost = cvs.parentElement;
 let resizeObserver = null;
@@ -908,6 +939,10 @@ return () => {
   cvs.removeEventListener("click", onCanvasClick);
   cvs.removeEventListener("mousemove", onCanvasMouseMove);
   cvs.removeEventListener("mouseleave", onCanvasMouseLeave);
+  cvs.removeEventListener("touchstart", onCanvasTouchStart);
+  cvs.removeEventListener("touchmove", onCanvasTouchMove);
+  cvs.removeEventListener("touchend", onCanvasTouchEnd);
+  cvs.removeEventListener("touchcancel", onCanvasTouchEnd);
   if (resizeObserver && resizeHost) resizeObserver.unobserve(resizeHost);
   if (resizeObserver) resizeObserver.disconnect();
   if (raf) cancelAnimationFrame(raf);
