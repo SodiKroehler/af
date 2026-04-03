@@ -35,7 +35,7 @@ const P = {
   /** After the vine finishes drawing, run one destructive prune (same as old slider level). */
   autoPruneOnComplete: true,
   /** Effective “slider” level for auto prune (2 was the sweet spot). Set 0 to disable passes scaling only. */
-  autoPruneDensity: 1.2
+  autoPruneDensity: 1.07
 };
 
 const DECOR = {
