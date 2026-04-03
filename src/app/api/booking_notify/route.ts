@@ -1,7 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { EmailTemplate } from '@components/notify_emailTemplate';
-import { Resend } from 'resend';
-import { bookingFail, bookingVerbose } from '@lib/booking/diagnostics';
+import { EmailTemplate } from '@components/notify_emailTemplate'
+import { Resend } from 'resend'
+import { buildBookingIcs } from '@lib/booking/buildBookingIcs'
+import { bookingFail, bookingVerbose } from '@lib/booking/diagnostics'
 
 export async function POST(req: NextRequest) {
   const key = process.env.RESEND_API_KEY;
@@ -13,34 +14,17 @@ export async function POST(req: NextRequest) {
 
   const { name, email, phone, date, time, occasion, notes } = await req.json();
 
-  bookingVerbose('booking_notify: received', { name, email, phone, date, time, occasion, hasNotes: Boolean(notes) });
+  bookingVerbose('booking_notify: received', { name, email, phone, date, time, occasion, hasNotes: Boolean(notes) })
 
-  // Parse time to proper ICS format (assume time is ISO string)
-  const startDate = new Date(date + 'T' + time);
-  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour duration
-
-  function formatICSDate(date: Date) {
-    return date
-      .toISOString()
-      .replace(/[-:]/g, '')
-      .replace(/\.\d{3}Z$/, 'Z');
-  }
-
-  const ics = `
-    BEGIN:VCALENDAR
-    VERSION:2.0
-    CALSCALE:GREGORIAN
-    BEGIN:VEVENT
-    SUMMARY:Booking - ${occasion}
-    DTSTART:${formatICSDate(startDate)}
-    DTEND:${formatICSDate(endDate)}
-    DESCRIPTION:Occasion: ${occasion}\\nBooked by: ${name}\\nEmail: ${email}\\nPhone: ${phone}${notes ? `\\nNotes: ${String(notes).replace(/\n/g, '\\n')}` : ''}
-    LOCATION:Chesapeake, VA
-    STATUS:CONFIRMED
-    END:VEVENT
-    END:VCALENDAR
-    `;
-
+  const ics = buildBookingIcs({
+    name,
+    email,
+    phone,
+    date,
+    time,
+    occasion,
+    notes: notes ? String(notes) : undefined,
+  })
 
   try {
     const { data, error } = await resend.emails.send({
@@ -59,7 +43,8 @@ export async function POST(req: NextRequest) {
       attachments: [
         {
           filename: "booking.ics",
-          content: btoa(ics), // base64 encoded string
+          content: Buffer.from(ics, "utf-8"),
+          contentType: "text/calendar; charset=utf-8; method=PUBLISH",
         },
       ],
     });
