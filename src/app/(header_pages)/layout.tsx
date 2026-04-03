@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col`}
       >
       {/* Top nav */}
-      <header className="z-50 w-full h-[100px] border-b border-gold px-8 py-4 flex items-center justify-between">
+      <header className="fixed top-0 left-0 right-0 z-50 flex h-[100px] w-full items-center justify-between border-b border-forest/10 bg-cream/75 px-8 py-4 shadow-[0_1px_0_rgba(255,255,255,0.4)] backdrop-blur-md backdrop-saturate-150">
         <Image src="/logo.png" alt="Logo" width={120} height={40} priority />
         <nav className="space-x-8 text-sm text-forest tracking-wider uppercase">
           <a href="/" className="hover:text-gold">Home</a>
@@ -39,7 +39,7 @@ export default function RootLayout({
           <a href="/book" className="hover:text-gold">Book</a>
         </nav>
       </header>
-      <section className="flex-1 w-full bg-forest text-cream relative">
+      <section className="relative flex-1 w-full min-h-0 bg-forest pt-[100px] text-cream">
         {children}
       </section>
       </body>

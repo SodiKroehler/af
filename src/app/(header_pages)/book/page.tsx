@@ -14,14 +14,12 @@ import {
   type BookingFormData,
 } from "@components/booking/BookingQuoteModal"
 import { BookingSuccessActions } from "@components/booking/BookingSuccessActions"
-import { paypalPaymentUrl } from "@lib/booking/contactLinks"
 
 type BookingData = BookingRequestData
 
 export default function BookingPage() {
   const [quoteOpen, setQuoteOpen] = useState(false)
   const [inlineSuccess, setInlineSuccess] = useState(false)
-  const payPalUrl = paypalPaymentUrl()
 
   const {
     register,
@@ -83,24 +81,8 @@ export default function BookingPage() {
 
   return (
     <main className="min-h-screen bg-cream px-4 py-10">
-      <div className="mx-auto flex w-full max-w-xl flex-col gap-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-semibold text-forest">Book a performance</h1>
-          <p className="mt-3 text-sm leading-relaxed text-ink/80">
-            Open the pricing calculator to add up your selections in real time—then we&apos;ll{" "}
-            <strong className="font-medium text-forest">confirm everything on a call</strong>. Some
-            options trigger a custom quote instead of a single total; either way, nothing is final
-            until you hear from us.
-          </p>
-          <Button
-            type="button"
-            className="mt-6 bg-forest px-8 text-white hover:bg-forest/90"
-            size="lg"
-            onClick={() => setQuoteOpen(true)}
-          >
-            Open pricing calculator
-          </Button>
-        </div>
+      <div className="mx-auto flex w-full max-w-2xl flex-col gap-8">
+        <h1 className="text-center text-3xl font-semibold text-forest">Book a performance</h1>
 
         <BookingQuoteModal
           open={quoteOpen}
@@ -109,59 +91,30 @@ export default function BookingPage() {
         />
 
         <Card className="rounded-2xl border-forest/10 shadow-lg">
-          <CardContent className="space-y-4 p-6 text-left text-sm leading-relaxed text-ink/85">
-            <h2 className="text-lg font-semibold text-forest">How Your Quote Is Calculated:</h2>
-            <p>
-              Azalea&apos;s Frequency provides personalized pricing based on the details of your
-              event. Your quote is generated automatically using the information you provide in the
-              booking survey.
+          <CardContent className="space-y-6 px-6 py-10 text-center sm:px-10 sm:py-12 md:px-12 md:py-14">
+            <h2 className="text-xl font-semibold text-forest sm:text-2xl">Get an estimate</h2>
+            <p className="mx-auto max-w-md text-sm leading-relaxed text-ink/80">
+              Open the pricing calculator to add up your selections in real time.
             </p>
-            <p className="font-medium text-forest">Your price is based on:</p>
-            <ul className="list-disc space-y-1 pl-5 text-ink/85">
-              <li>Event type</li>
-              <li>Length of performance</li>
-              <li>Number of set times</li>
-              <li>Location &amp; travel distance</li>
-              <li>Load‑in difficulty</li>
-              <li>Amplification needs</li>
-              <li>Aesthetic/wardrobe alignment</li>
-              <li>Song requests</li>
-              <li>Multi‑location movement</li>
-              <li>Special accommodations</li>
-            </ul>
-            <p>
-              This ensures your quote is accurate, fair, and tailored to your event&apos;s needs.
-            </p>
-            <p className="border-t border-forest/10 pt-4 text-ink/80">
-              Sunshine welcomes both paths: you can walk through pricing together on a call, or use
-              the online calculator and booking survey on this page—whichever feels easier. When
-              you&apos;re ready to pay, we typically handle payment through PayPal.{" "}
-              {payPalUrl ? (
-                <>
-                  You can{" "}
-                  <a
-                    href={payPalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-medium text-forest underline underline-offset-2 hover:text-forest/80"
-                  >
-                    pay online here
-                  </a>{" "}
-                  when you like, or{" "}
-                </>
-              ) : null}
-              we&apos;ll send you the PayPal link by email after we&apos;ve connected about your
-              event.
-            </p>
+            <Button
+              type="button"
+              className="bg-forest px-10 text-white hover:bg-forest/90"
+              size="lg"
+              onClick={() => setQuoteOpen(true)}
+            >
+              Open pricing calculator
+            </Button>
           </CardContent>
         </Card>
 
-        <Card className="shadow-lg rounded-2xl border-forest/10">
-          <CardContent className="space-y-4 p-6">
-            <h2 className="text-lg font-semibold text-forest">Request without the estimate</h2>
+        <Card className="rounded-2xl border-forest/10 shadow-lg">
+          <CardContent className="space-y-4 p-6 sm:p-8">
+            <h2 className="text-lg font-semibold leading-snug text-forest sm:text-xl">
+              Or, fill out contact details and set up a phone interview
+            </h2>
             <p className="text-sm text-ink/75">
-              Same flow as before: your details go to our booking log and we get an email. After you
-              send it, choose whether to hop on a call or move straight to calendar scheduling.
+              Your details go to our booking log and we get an email. After you send it, you can
+              choose a call or calendar next steps.
             </p>
 
             {inlineSuccess ? (
