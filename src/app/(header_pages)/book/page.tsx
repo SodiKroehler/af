@@ -14,6 +14,7 @@ import {
   type BookingFormData,
 } from "@components/booking/BookingQuoteModal"
 import { BookingSuccessActions } from "@components/booking/BookingSuccessActions"
+import { bookingFail, bookingVerbose } from "@lib/booking/diagnostics"
 
 type BookingData = BookingRequestData
 
@@ -29,44 +30,113 @@ export default function BookingPage() {
   } = useForm<BookingData>({ resolver: zodResolver(bookingRequestSchema) })
 
   async function submitBooking(formdata: BookingFormData): Promise<boolean> {
+    bookingVerbose("submitBooking: start", {
+      occasion: formdata.occasion,
+      hasNotes: Boolean(formdata.notes?.trim()),
+    })
     try {
       const rateRes = await fetch("/api/todays_bookings", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
-      const todays_reqs = await rateRes.json()
 
-      if (
-        !rateRes.ok ||
-        typeof todays_reqs.count !== "number" ||
-        todays_reqs.count >= 30
-      ) {
-        console.error("Error fetching todays bookings:", todays_reqs)
+      let todays_reqs: Record<string, unknown> = {}
+      try {
+        todays_reqs = (await rateRes.json()) as Record<string, unknown>
+      } catch (parseErr) {
+        bookingFail("submitBooking: todays_bookings response is not JSON", {
+          status: rateRes.status,
+          parseErr,
+        })
         alert(
-          "Sorry, we could not complete that request right now. Please try again tomorrow or reach out by email.",
+          "We could not reach the booking service. Check the console for [booking] logs or try again later.",
         )
         return false
       }
 
+      bookingVerbose("submitBooking: todays_bookings", {
+        httpStatus: rateRes.status,
+        httpOk: rateRes.ok,
+        body: todays_reqs,
+      })
+
+      const count = todays_reqs.count
+      const countOk = typeof count === "number"
+      if (!rateRes.ok || !countOk || count >= 30) {
+        bookingFail("submitBooking: blocked by rate / config check", {
+          httpStatus: rateRes.status,
+          body: todays_reqs,
+          countOk,
+          count,
+        })
+        const code = todays_reqs.code
+        if (code === "ENV_MISSING") {
+          alert(
+            "Booking is blocked: the site is missing Supabase environment variables (NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY). Check Vercel → Settings → Environment Variables. See browser console for [booking] logs.",
+          )
+        } else if (code === "SUPABASE_ERROR") {
+          alert(
+            `Booking check failed (database): ${String(todays_reqs.supabase ?? todays_reqs.error ?? "unknown error")}. See console [booking] logs.`,
+          )
+        } else if (countOk && count >= 30) {
+          alert(
+            "Sorry, the daily request limit was reached. Please try again tomorrow or email us.",
+          )
+        } else {
+          alert(
+            "Sorry, we could not complete that request right now. See browser console for [booking] logs or reach out by email.",
+          )
+        }
+        return false
+      }
+
+      bookingVerbose("submitBooking: Supabase insert…")
       const { data, error } = await supabase.from("bookings").insert([formdata])
 
-      await fetch("/api/booking_notify", {
+      if (error) {
+        bookingFail("submitBooking: Supabase insert failed", {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+        })
+        alert(
+          `Could not save your booking: ${error.message}. See console [booking] for details.`,
+        )
+        return false
+      }
+
+      bookingVerbose("submitBooking: insert ok", { rowHint: data })
+
+      const notifyRes = await fetch("/api/booking_notify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formdata),
       })
-
-      if (error) {
-        console.error("Booking error:", error)
-        console.log("Data:", data)
-        alert("There was an error submitting your booking.")
-        return false
+      let notifyBody: unknown
+      try {
+        notifyBody = await notifyRes.json()
+      } catch {
+        notifyBody = { parseError: true }
+      }
+      bookingVerbose("submitBooking: booking_notify", {
+        httpStatus: notifyRes.status,
+        httpOk: notifyRes.ok,
+        body: notifyBody,
+      })
+      if (!notifyRes.ok) {
+        bookingFail(
+          "submitBooking: confirmation email failed — row may still be saved",
+          notifyBody,
+        )
       }
 
       return true
     } catch (error) {
-      console.error("Booking error:", error)
-      alert("There was an error submitting your booking.")
+      bookingFail("submitBooking: uncaught exception", error)
+      alert(
+        "Something went wrong submitting your booking. See browser console for [booking] logs.",
+      )
       return false
     }
   }
@@ -92,10 +162,6 @@ export default function BookingPage() {
 
         <Card className="rounded-2xl border-forest/10 shadow-lg">
           <CardContent className="space-y-6 px-6 py-10 text-center sm:px-10 sm:py-12 md:px-12 md:py-14">
-            <h2 className="text-xl font-semibold text-forest sm:text-2xl">Get an estimate</h2>
-            <p className="mx-auto max-w-md text-sm leading-relaxed text-ink/80">
-              Open the pricing calculator to add up your selections in real time.
-            </p>
             <div className="w-full">
               <Button
                 type="button"

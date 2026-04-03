@@ -1,18 +1,19 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { EmailTemplate } from '@components/notify_emailTemplate';
 import { Resend } from 'resend';
+import { bookingFail, bookingVerbose } from '@lib/booking/diagnostics';
 
 export async function POST(req: NextRequest) {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
-    console.error('booking_notify: RESEND_API_KEY is not set');
-    return NextResponse.json({ error: 'Email service not configured' }, { status: 503 });
+    bookingFail('booking_notify: RESEND_API_KEY is not set');
+    return NextResponse.json({ error: 'Email service not configured', code: 'RESEND_MISSING' }, { status: 503 });
   }
   const resend = new Resend(key);
 
   const { name, email, phone, date, time, occasion, notes } = await req.json();
 
-  console.log('Received booking data:', { name, email, phone, date, time, occasion, notes });
+  bookingVerbose('booking_notify: received', { name, email, phone, date, time, occasion, hasNotes: Boolean(notes) });
 
   // Parse time to proper ICS format (assume time is ISO string)
   const startDate = new Date(date + 'T' + time);
@@ -64,14 +65,14 @@ export async function POST(req: NextRequest) {
     });
 
     if (error) {
-      console.log('Email error:', error);
-      return NextResponse.json({ error }, { status: 403 });
-
+      bookingFail('booking_notify: Resend API error', error);
+      return NextResponse.json({ error, code: 'RESEND_SEND_FAILED' }, { status: 403 });
     }
 
+    bookingVerbose('booking_notify: email sent ok', { id: data?.id });
     return NextResponse.json(data);
   } catch (error) {
-    console.log('Other error:', error);
-    return NextResponse.json({ error }, { status: 500 });
+    bookingFail('booking_notify: exception', error);
+    return NextResponse.json({ error: String(error), code: 'NOTIFY_EXCEPTION' }, { status: 500 });
   }
 }

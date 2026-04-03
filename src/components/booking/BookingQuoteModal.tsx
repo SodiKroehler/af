@@ -45,6 +45,10 @@ type Props = {
   onSubmitRequest: (data: BookingFormData) => Promise<boolean>
 }
 
+/** Wizard “Your request” step only — white fields, grey placeholders, dark typed text. */
+const WIZARD_REQUEST_FIELD =
+  "border-forest/20 bg-white text-neutral-900 placeholder:text-neutral-500 shadow-none selection:bg-amber-100 selection:text-neutral-900 dark:bg-white dark:text-neutral-900 dark:placeholder:text-neutral-500"
+
 function RadioSection<K extends string>({
   title,
   name,
@@ -342,21 +346,35 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
               </p>
               <form onSubmit={handleSubmit(submitForm)} className="space-y-3">
                 <div>
-                  <Input placeholder="Your name" {...register("name")} />
+                  <Input
+                    placeholder="Your name"
+                    className={WIZARD_REQUEST_FIELD}
+                    {...register("name")}
+                  />
                   {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
                 </div>
                 <div>
-                  <Input type="email" placeholder="Email" {...register("email")} />
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    className={WIZARD_REQUEST_FIELD}
+                    {...register("email")}
+                  />
                   {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
                 </div>
                 <div>
-                  <Input type="tel" placeholder="Phone" {...register("phone")} />
+                  <Input
+                    type="tel"
+                    placeholder="Phone"
+                    className={WIZARD_REQUEST_FIELD}
+                    {...register("phone")}
+                  />
                   {errors.phone && <p className="text-sm text-red-600">{errors.phone.message}</p>}
                 </div>
                 <div>
                   <Input
                     type="date"
-                    className="booking-datetime-field border-forest/20 bg-white text-ink"
+                    className={cn("booking-datetime-field", WIZARD_REQUEST_FIELD)}
                     {...register("date")}
                   />
                   {errors.date && <p className="text-sm text-red-600">{errors.date.message}</p>}
@@ -364,19 +382,28 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
                 <div>
                   <Input
                     type="time"
-                    className="booking-datetime-field border-forest/20 bg-white text-ink"
+                    className={cn("booking-datetime-field", WIZARD_REQUEST_FIELD)}
                     {...register("time")}
                   />
                   {errors.time && <p className="text-sm text-red-600">{errors.time.message}</p>}
                 </div>
                 <div>
-                  <Input placeholder="Occasion" {...register("occasion")} />
+                  <Input
+                    placeholder="Occasion"
+                    className={WIZARD_REQUEST_FIELD}
+                    {...register("occasion")}
+                  />
                   {errors.occasion && (
                     <p className="text-sm text-red-600">{errors.occasion.message}</p>
                   )}
                 </div>
                 <div>
-                  <Textarea placeholder="Notes (optional)" rows={3} {...register("notes")} />
+                  <Textarea
+                    placeholder="Notes (optional)"
+                    rows={3}
+                    className={WIZARD_REQUEST_FIELD}
+                    {...register("notes")}
+                  />
                 </div>
                 <Button
                   type="submit"
