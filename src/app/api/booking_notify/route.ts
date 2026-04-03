@@ -26,10 +26,13 @@ export async function POST(req: NextRequest) {
     notes: notes ? String(notes) : undefined,
   })
 
+  const reminderTo =
+    process.env.BOOKING_NOTIFY_REMINDER_EMAIL?.trim() || 'sunshinerhuggins@gmail.com'
+
   try {
     const { data, error } = await resend.emails.send({
       from: 'Azalea’s Frequency <noreply@updates.azaleasfrequency.com>', // must be verified in Resend
-      to: ['sodikroehler@gmail.com', 'hugginssunshine@gmail.com'],
+      to: ['sodikroehler@gmail.com', reminderTo],
       subject: `New booking request from ${name}`,
       react: EmailTemplate({
         name,
