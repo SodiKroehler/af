@@ -96,14 +96,15 @@ export default function BookingPage() {
             <p className="mx-auto max-w-md text-sm leading-relaxed text-ink/80">
               Open the pricing calculator to add up your selections in real time.
             </p>
-            <Button
-              type="button"
-              className="bg-forest px-10 text-white hover:bg-forest/90"
-              size="lg"
-              onClick={() => setQuoteOpen(true)}
-            >
-              Open pricing calculator
-            </Button>
+            <div className="w-full">
+              <Button
+                type="button"
+                className="h-14 w-full min-h-[3.5rem] bg-forest px-6 text-base font-medium text-white hover:bg-forest/90 sm:h-16 sm:text-lg"
+                onClick={() => setQuoteOpen(true)}
+              >
+                Open pricing calculator
+              </Button>
+            </div>
           </CardContent>
         </Card>
 
@@ -149,11 +150,19 @@ export default function BookingPage() {
                   {errors.phone && <p className="text-sm text-red-600">{errors.phone.message}</p>}
                 </div>
                 <div>
-                  <Input type="date" {...register("date")} />
+                  <Input
+                    type="date"
+                    className="booking-datetime-field border-forest/20 bg-white text-ink"
+                    {...register("date")}
+                  />
                   {errors.date && <p className="text-sm text-red-600">{errors.date.message}</p>}
                 </div>
                 <div>
-                  <Input type="time" {...register("time")} />
+                  <Input
+                    type="time"
+                    className="booking-datetime-field border-forest/20 bg-white text-ink"
+                    {...register("time")}
+                  />
                   {errors.time && <p className="text-sm text-red-600">{errors.time.message}</p>}
                 </div>
                 <div>

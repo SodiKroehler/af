@@ -132,3 +132,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Native date/time pickers: keep edit text visible on light backgrounds (WebKit/Blink). */
+@layer components {
+  .booking-datetime-field {
+    color-scheme: light;
+  }
+  .booking-datetime-field::-webkit-datetime-edit,
+  .booking-datetime-field::-webkit-datetime-edit-fields-wrapper,
+  .booking-datetime-field::-webkit-datetime-edit-text,
+  .booking-datetime-field::-webkit-datetime-edit-month-field,
+  .booking-datetime-field::-webkit-datetime-edit-day-field,
+  .booking-datetime-field::-webkit-datetime-edit-year-field,
+  .booking-datetime-field::-webkit-datetime-edit-hour-field,
+  .booking-datetime-field::-webkit-datetime-edit-minute-field,
+  .booking-datetime-field::-webkit-datetime-edit-ampm-field {
+    color: oklch(38% 0.02 260);
+  }
+}

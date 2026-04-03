@@ -203,30 +203,39 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
           )}
         >
           {step === 0 && (
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-forest">Pricing calculator</h2>
-              <p className="text-sm leading-relaxed text-ink/85">
-                Use the next screen to build an estimate from our standard add-ons. Everything you
-                pick is <strong className="font-medium text-forest">additive</strong>—you&apos;ll
-                see a running total.{" "}
-                <strong className="font-medium text-forest">
-                  Final pricing is always confirmed on a call.
-                </strong>
+            <div className="space-y-4 text-left text-sm leading-relaxed text-ink/85">
+              <h2 className="text-xl font-semibold text-forest">How Your Quote Is Calculated:</h2>
+              <p>
+                Azalea&apos;s Frequency provides personalized pricing based on the details of your
+                event. Your quote is generated automatically using the information you provide in the
+                booking survey.
               </p>
-              <p className="text-xs text-ink/65">
-                Travel is measured from Virginia Beach, VA. If you need 90+ miles or 5+ custom
-                songs, we&apos;ll flag your request for a custom quote instead of a single total.
+              <p className="font-medium text-forest">Your price is based on:</p>
+              <ul className="list-disc space-y-1 pl-5">
+                <li>Event type</li>
+                <li>Length of performance</li>
+                <li>Number of set times</li>
+                <li>Location &amp; travel distance</li>
+                <li>Load‑in difficulty</li>
+                <li>Amplification needs</li>
+                <li>Aesthetic/wardrobe alignment</li>
+                <li>Song requests</li>
+                <li>Multi‑location movement</li>
+                <li>Special accommodations</li>
+              </ul>
+              <p>
+                This ensures your quote is accurate, fair, and tailored to your event&apos;s needs.
               </p>
               <Button
                 type="button"
-                className="w-full bg-forest text-white hover:bg-forest/90"
+                className="mt-2 w-full bg-forest py-6 text-base text-white hover:bg-forest/90 sm:py-7 sm:text-lg"
                 onClick={() => setStep(1)}
               >
-                Build your quote
+                Continue to pricing calculator
               </Button>
               <button
                 type="button"
-                className="w-full text-center text-sm text-forest underline-offset-2 hover:underline"
+                className="w-full pt-1 text-center text-sm text-forest underline-offset-2 hover:underline"
                 onClick={() => setStep(2)}
               >
                 Skip calculator — go straight to the request form
@@ -345,11 +354,19 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
                   {errors.phone && <p className="text-sm text-red-600">{errors.phone.message}</p>}
                 </div>
                 <div>
-                  <Input type="date" {...register("date")} />
+                  <Input
+                    type="date"
+                    className="booking-datetime-field border-forest/20 bg-white text-ink"
+                    {...register("date")}
+                  />
                   {errors.date && <p className="text-sm text-red-600">{errors.date.message}</p>}
                 </div>
                 <div>
-                  <Input type="time" {...register("time")} />
+                  <Input
+                    type="time"
+                    className="booking-datetime-field border-forest/20 bg-white text-ink"
+                    {...register("time")}
+                  />
                   {errors.time && <p className="text-sm text-red-600">{errors.time.message}</p>}
                 </div>
                 <div>
