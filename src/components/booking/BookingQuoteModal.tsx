@@ -24,16 +24,12 @@ import {
   SET_STRUCTURE_LABELS,
   TRAVEL_ORDER,
   TRAVEL_LABELS,
-  LOADIN_ORDER,
-  LOADIN_LABELS,
   AMP_ORDER,
   AMP_LABELS,
   AESTHETIC_ORDER,
   AESTHETIC_LABELS,
   SONGS_ORDER,
   SONGS_LABELS,
-  MULTI_LOC_ORDER,
-  MULTI_LOC_LABELS,
 } from "@lib/booking/quoteEstimate"
 import { BookingSuccessActions } from "@components/booking/BookingSuccessActions"
 
@@ -134,7 +130,10 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
 
   const eventOptions = EVENT_TYPE_ORDER.map((value) => ({
     value,
-    label: `${EVENT_LABELS[value]} (+$${EVENT_ADD[value]})`,
+    label:
+      EVENT_ADD[value] === "custom"
+        ? `${EVENT_LABELS[value]} (custom quote)`
+        : `${EVENT_LABELS[value]} (+$${EVENT_ADD[value]})`,
   }))
 
   const durationOptions = DURATION_ORDER.map((value) => ({
@@ -152,11 +151,6 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
     label: TRAVEL_LABELS[value],
   }))
 
-  const loadInOptions = LOADIN_ORDER.map((value) => ({
-    value,
-    label: LOADIN_LABELS[value],
-  }))
-
   const ampOptions = AMP_ORDER.map((value) => ({
     value,
     label: AMP_LABELS[value],
@@ -170,11 +164,6 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
   const songsOptions = SONGS_ORDER.map((value) => ({
     value,
     label: SONGS_LABELS[value],
-  }))
-
-  const multiOptions = MULTI_LOC_ORDER.map((value) => ({
-    value,
-    label: MULTI_LOC_LABELS[value],
   }))
 
   return (
@@ -220,11 +209,9 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
                 <li>Length of performance</li>
                 <li>Number of set times</li>
                 <li>Location &amp; travel distance</li>
-                <li>Load‑in difficulty</li>
                 <li>Amplification needs</li>
                 <li>Aesthetic/wardrobe alignment</li>
                 <li>Song requests</li>
-                <li>Multi‑location movement</li>
                 <li>Special accommodations</li>
               </ul>
               <p>
@@ -251,7 +238,7 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-forest">Your selections</h2>
               <p className="text-xs text-ink/70">
-                Base fee ${BASE_FEE} includes transport, setup, tuning, and the first 30 minutes.
+                Base fee ${BASE_FEE} includes transport, setup, tuning, and the first hour.
               </p>
 
               <RadioSection
@@ -262,7 +249,7 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
                 options={eventOptions}
               />
               <RadioSection
-                title="Performance duration (first 30 min included in base)"
+                title="Performance duration (1 hour included; any additional hour adds $150)"
                 name="duration"
                 value={selections.duration}
                 onChange={(v) => patchSelections("duration", v)}
@@ -281,13 +268,6 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
                 value={selections.travel}
                 onChange={(v) => patchSelections("travel", v)}
                 options={travelOptions}
-              />
-              <RadioSection
-                title="Load-in difficulty"
-                name="loadIn"
-                value={selections.loadIn}
-                onChange={(v) => patchSelections("loadIn", v)}
-                options={loadInOptions}
               />
               <RadioSection
                 title="Amplification"
@@ -310,14 +290,6 @@ export function BookingQuoteModal({ open, onClose, onSubmitRequest }: Props) {
                 onChange={(v) => patchSelections("songs", v)}
                 options={songsOptions}
               />
-              <RadioSection
-                title="Multiple locations (same event)"
-                name="multiLoc"
-                value={selections.multiLoc}
-                onChange={(v) => patchSelections("multiLoc", v)}
-                options={multiOptions}
-              />
-
               {/* Line-by-line breakdown (compact, for transparency) */}
               <div className="rounded-xl border border-forest/10 bg-white/60 p-3 text-xs text-ink/80">
                 <p className="mb-2 font-semibold text-forest">Line items</p>
