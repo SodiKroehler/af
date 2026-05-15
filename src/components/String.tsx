@@ -119,7 +119,7 @@ export function String({ letter, vertical_offset }: StringProps) {
         animate={revealControls}
       >
         <span
-          className="select-none font-serif text-[2.25rem] font-medium tracking-tight text-cream"
+          className="select-none font-serif text-[5.25rem] font-medium tracking-tight text-cream"
           aria-hidden
         >
           {letter}

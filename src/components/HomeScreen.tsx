@@ -46,7 +46,7 @@ export function HomeScreen() {
     <div className="relative flex min-h-0 w-full flex-1 flex-col text-cream">
       <div
         id="logo_div"
-        className="flex h-[25%] min-h-0 w-full items-center justify-center bg-forest-light px-6"
+        className="flex h-[30%] min-h-0 w-full items-center justify-center bg-forest-light px-6"
       >
         <span className="logo-blend-host logo-blend-host--light h-[92%] max-h-full">
           <Image
@@ -62,7 +62,7 @@ export function HomeScreen() {
 
       <div
         id="strings_host"
-        className="flex h-[60%] min-h-0 w-full items-stretch justify-center overflow-hidden bg-forest-light px-1 sm:px-3 [&>*]:min-w-[14px]"
+        className="flex h-[80%] min-h-0 w-full items-stretch justify-center overflow-hidden bg-forest-light px-1 sm:px-3 [&>*]:min-w-[14px]"
       >
         <div
           className="shrink-0 flex-none"
