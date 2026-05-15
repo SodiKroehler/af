@@ -9,12 +9,13 @@
   --font-geist-sans: 'Geist', sans-serif;
   --font-geist-mono: 'Geist Mono', monospace;
 
-  /* Colors (OKLCH format) */
-  --color-cream: oklch(97.8% 0.004 83.98);       /* #f5f3ee */
-  --color-ink: oklch(20.0% 0.004 275.24);         /* #1a1a1a */
-  --color-forest: oklch(34.0% 0.06 165.0);       /* #1e3d34 */
-  --color-forest-light: oklch(44.0% 0.06 165.0);  /* #2f5749 */
-  --color-gold: oklch(72.3% 0.14 85.0);           /* #c7a046 */
+  /* Brand palette (hex — exact specs) */
+  --color-cream: #f8f4ea;
+  --color-ink: oklch(20.0% 0.004 275.24); /* #1a1a1a */
+  --color-forest: #173e2e;
+  --color-forest-light: #6f8067;
+  --color-gold: #c6a15b;
+  --color-azalea: #c95e7e;
 }
 
 @theme inline {
