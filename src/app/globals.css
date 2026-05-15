@@ -8,6 +8,7 @@
   /* Fonts */
   --font-geist-sans: 'Geist', sans-serif;
   --font-geist-mono: 'Geist Mono', monospace;
+  --font-body: var(--font-inter), sans-serif;
 
   /* Brand palette (hex — exact specs) */
   --color-cream: #f8f4ea;
@@ -130,7 +131,16 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body;
+  }
+}
+
+@layer components {
+  /* Not `font-display` — Tailwind reserves that for font-display: swap. */
+  .type-display {
+    font-family: var(--font-aboreto), serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 }
 

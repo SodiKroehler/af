@@ -13,7 +13,7 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen bg-cream text-ink">
       <div className="max-w-6xl mx-auto px-4 py-12 space-y-12">
-        <h1 className="text-6xl text-center text-forest mb-10 tracking-wider uppercase">
+        <h1 className="type-display text-6xl text-center text-forest mb-10">
           Gallery
         </h1>
 

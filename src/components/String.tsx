@@ -1,10 +1,40 @@
 "use client"
 
 import { motion, useAnimation } from "framer-motion"
-import { useCallback, useRef, useState, type ReactNode } from "react"
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react"
+
+/** Scale a single display letter to the string column’s content box. */
+function useFitLetterSize(containerRef: RefObject<HTMLDivElement | null>) {
+  const [fontSizePx, setFontSizePx] = useState<number | null>(null)
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const update = () => {
+      const { width, height } = el.getBoundingClientRect()
+      if (width < 1 || height < 1) return
+      setFontSizePx(Math.min(width * 0.9, height * 1.05))
+    }
+
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [containerRef])
+
+  return fontSizePx
+}
 
 const LINE_OPACITY = 0.4
-const LETTER_OPACITY_REST = 0.1
+const LETTER_OPACITY_REST = 0.001
 const LETTER_OPACITY_REVEAL = 1
 
 type StringProps = {
@@ -47,6 +77,8 @@ export function String({ letter, vertical_offset }: StringProps) {
   const lineControls = useAnimation()
   const revealControls = useAnimation()
   const busy = useRef(false)
+  const areaRef = useRef<HTMLDivElement>(null)
+  const letterFontSizePx = useFitLetterSize(areaRef)
   const [letterIsVisible, setLetterIsVisible] = useState(false)
 
   const isSpace = letter === " " || letter === "\u00a0"
@@ -113,22 +145,30 @@ export function String({ letter, vertical_offset }: StringProps) {
       className="relative min-w-0 flex-1 cursor-default touch-manipulation"
       onPointerEnter={runSequence}
     >
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex items-center justify-center"
-        initial={{ opacity: LETTER_OPACITY_REST }}
-        animate={revealControls}
+      <div
+        ref={areaRef}
+        className="relative z-0 flex min-h-0 w-full flex-1 flex-col items-center justify-end overflow-hidden"
       >
-        <span
-          className="select-none font-serif text-[5.25rem] font-medium tracking-tight text-cream"
-          aria-hidden
-        >
-          {letter}
-        </span>
-      </motion.div>
-
-      <div className="relative z-10 flex min-h-0 w-full flex-1 flex-col items-center justify-end">
         <motion.div
-          className="h-full w-[5px] shrink-0 rounded-[0px_12px_12px_0px] bg-gold shadow-[0_0_10px_rgba(198,161,91,0.2)]"
+          className="pointer-events-none absolute inset-0 z-0 flex items-end justify-center"
+          initial={{ opacity: LETTER_OPACITY_REST }}
+          animate={revealControls}
+        >
+          <span
+            className="select-none type-display leading-none text-cream"
+            style={
+              letterFontSizePx != null
+                ? { fontSize: letterFontSizePx }
+                : undefined
+            }
+            aria-hidden
+          >
+            {letter}
+          </span>
+        </motion.div>
+
+        <motion.div
+          className="relative z-10 h-full w-[5px] shrink-0 rounded-[0px_12px_12px_0px] bg-gold shadow-[0_0_10px_rgba(198,161,91,0.2)]"
           initial={{ x: 0, opacity: LINE_OPACITY }}
           animate={lineControls}
         />

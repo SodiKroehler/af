@@ -14,7 +14,9 @@ export default function AboutPage() {
             height={300}
             className="mb-4"
           />
-          <h1 className="text-4xl font-bold text-forest">Azalea&apos;s Frequency</h1>
+          <h1 className="type-display text-4xl text-forest">
+            Azalea&apos;s Frequency
+          </h1>
         </div>
 
         <section className="mx-auto max-w-prose text-left text-ink space-y-6 text-lg leading-relaxed text-gray-800">
