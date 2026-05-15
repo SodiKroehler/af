@@ -8,7 +8,7 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto space-y-10">
         <div className="flex flex-col items-center text-center space-y-6">
           <Image
-            src="/logo.png" // Place your uploaded logo in /public
+            src="/logo.jpeg"
             alt="Azalea's Frequency Logo"
             width={300}
             height={300}

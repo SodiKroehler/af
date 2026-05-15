@@ -134,6 +134,26 @@
   }
 }
 
+/* JPEG logo: match host bg to parent, blend white plate into background. */
+@layer components {
+  .logo-blend-host {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    background-color: var(--color-forest);
+  }
+  .logo-blend-host--light {
+    background-color: var(--color-forest-light);
+  }
+  .logo-blend-host--cream {
+    background-color: var(--color-cream);
+  }
+  .logo-blend-host img {
+    mix-blend-mode: darken;
+  }
+}
+
 /* Native date/time pickers: keep edit text visible on light backgrounds (WebKit/Blink). */
 @layer components {
   .booking-datetime-field {

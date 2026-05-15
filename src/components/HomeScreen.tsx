@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import { String } from "@components/String"
 
 const letters = [
@@ -25,35 +24,63 @@ const letters = [
   "Y",
 ]
 
+/** Horizontal inset on the string row — keeps letter columns from spanning full width */
+const LETTER_BUFFER = "8rem"
+
+/** Max top inset (% of strings_host width); left columns approach this, right → 0. */
+const SWOOP_MAX_OFFSET = 10
+/** Log curve severity — higher = shorter left strings, taller right (try ~8–20). */
+const SWOOP_LOG_STRENGTH = 60
+
+/** Left short → right tall; log-shaped ramp between them. */
+function verticalOffsetForIndex(index: number, total: number): number {
+  if (total <= 1) return 0
+  const t = 1 - index / (total - 1)
+  const logT =
+    Math.log1p(t * (SWOOP_LOG_STRENGTH - 1)) / Math.log(SWOOP_LOG_STRENGTH)
+  return logT * SWOOP_MAX_OFFSET
+}
+
 export function HomeScreen() {
   return (
-    <div className="flex min-h-[calc(100dvh-100px)] w-full flex-col bg-forest text-cream">
-      {/* Upper ~75%: centered logo */}
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-6 py-10">
-        <Link
-          href="/"
-          className="relative block outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold/40"
-          aria-label="Azalea's Frequency home"
-        >
+    <div className="relative flex min-h-0 w-full flex-1 flex-col text-cream">
+      <div
+        id="logo_div"
+        className="flex h-[25%] min-h-0 w-full items-center justify-center bg-forest-light px-6"
+      >
+        <span className="logo-blend-host logo-blend-host--light h-[92%] max-h-full">
           <Image
-            src="/logo.png"
+            src="/logo.jpeg"
             alt="Azalea's Frequency"
-            width={320}
-            height={320}
+            width={746}
+            height={658}
             priority
-            className="h-auto w-[min(72vw,280px)] max-w-full object-contain md:w-[min(56vw,320px)]"
+            className="h-full w-auto max-w-[min(72vw,280px)] object-contain md:max-w-[320px]"
           />
-        </Link>
+        </span>
       </div>
 
-      {/* Bottom 25%: full-width string row */}
       <div
         id="strings_host"
-        className="flex h-[25%] min-h-[140px] w-full shrink-0 items-stretch justify-center border-t border-forest-light/25 px-1 sm:px-3"
+        className="flex h-[60%] min-h-0 w-full items-stretch justify-center overflow-hidden bg-forest-light px-1 sm:px-3 [&>*]:min-w-[14px]"
       >
+        <div
+          className="shrink-0 flex-none"
+          style={{ width: LETTER_BUFFER }}
+          aria-hidden
+        />
         {letters.map((letter, i) => (
-          <String key={`${letter}-${i}`} letter={letter} />
+          <String
+            key={`${letter}-${i}`}
+            letter={letter}
+            vertical_offset={verticalOffsetForIndex(i, letters.length)}
+          />
         ))}
+        <div
+          className="shrink-0 flex-none"
+          style={{ width: LETTER_BUFFER }}
+          aria-hidden
+        />
       </div>
     </div>
   )
