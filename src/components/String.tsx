@@ -150,7 +150,7 @@ export function String({ letter, vertical_offset }: StringProps) {
         className="relative z-0 flex min-h-0 w-full flex-1 flex-col items-center justify-end overflow-hidden"
       >
         <motion.div
-          className="pointer-events-none absolute inset-0 z-0 flex items-end justify-center"
+          className="pointer-events-none absolute inset-0 z-0 flex items-end justify-center pb-[10vh]"
           initial={{ opacity: LETTER_OPACITY_REST }}
           animate={revealControls}
         >
